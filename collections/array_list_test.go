@@ -2,6 +2,7 @@ package collections
 
 import (
 	"github.com/stretchr/testify/assert"
+	"math/rand"
 	"testing"
 )
 
@@ -104,4 +105,49 @@ func TestArrayList7(t *testing.T) {
 func TestArrayList8(t *testing.T) {
 	assert.Equal(t, []int{0, 1, 2, 3, 7, 8}, InsertionSort([]int{3, 0, 1, 2, 7, 8}))
 	assert.Equal(t, []int{2, 2, 4, 5, 6, 7, 8, 9, 11, 13}, InsertionSort([]int{9, 6, 2, 5, 11, 13, 4, 2, 7, 8}))
+}
+
+func TestArrayList9(t *testing.T) {
+	list := NewArrayList[int]()
+	n := 1_000_000
+	for i := 0; i < n; i++ {
+		list.Append(rand.Intn(n << 1))
+	}
+	last := 0
+	for _, v := range MergeSort(list.data) {
+		if v < last {
+			t.FailNow()
+		}
+		last = v
+	}
+}
+
+func TestArrayList10(t *testing.T) {
+	list := NewArrayList[int]()
+	n := 1_000_000
+	for i := 0; i < n; i++ {
+		list.Append(rand.Intn(n << 1))
+	}
+	last := 0
+	for _, v := range QuickSort(list.data) {
+		if v < last {
+			t.FailNow()
+		}
+		last = v
+	}
+}
+
+func TestArrayList11(t *testing.T) {
+	list := NewArrayList[int]()
+	n := 100_000
+	for i := 0; i < n; i++ {
+		list.Append(rand.Intn(n << 1))
+	}
+	last := 0
+	for _, v := range InsertionSort(list.data) {
+		if v < last {
+			t.FailNow()
+		}
+		last = v
+	}
 }
