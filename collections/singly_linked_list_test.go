@@ -1,0 +1,69 @@
+package collections
+
+import (
+	"github.com/stretchr/testify/assert"
+	"math/rand"
+	"testing"
+)
+
+func TestSinglyLinkedList1(t *testing.T) {
+	list := NewEmptySinglyLinkedList[int]()
+	list.Add(0, 3)
+	list.Add(0, 5)
+	list.Add(0, 7)
+	assert.Equal(t, []int{7, 5, 3}, list.ToArray())
+
+	list.Add(1, 8)
+	assert.Equal(t, []int{7, 8, 5, 3}, list.ToArray())
+
+	list.Add(3, 9)
+	assert.Equal(t, []int{7, 8, 5, 9, 3}, list.ToArray())
+
+	list.Add(5, 11)
+	assert.Equal(t, []int{7, 8, 5, 9, 3, 11}, list.ToArray())
+
+	assert.Equal(t, 7, list.Get(0).value)
+	assert.Equal(t, 5, list.Get(2).value)
+
+	list.Delete(3)
+	assert.Equal(t, []int{7, 8, 5}, list.ToArray())
+
+	list.Delete(0)
+	assert.Equal(t, []int{}, list.ToArray())
+}
+
+func TestSinglyLinkedList2(t *testing.T) {
+	list := NewEmptySinglyLinkedList[int]()
+	list.Add(0, 3)
+	list.Add(0, 5)
+	list.Add(0, 7)
+	list.Add(0, 1)
+	list.Add(0, 4)
+	list.Add(0, 2)
+	list.Add(0, 9)
+	assert.Equal(t, []int{9, 2, 4, 1, 7, 5, 3}, list.ToArray())
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 7, 9}, MergeSortLinked(list).ToArray())
+
+	list.Add(0, -2)
+	list.Add(0, -4)
+	list.Add(0, -3)
+	list.Add(0, -5)
+	assert.Equal(t, []int{-5, -3, -4, -2, 9, 2, 4, 1, 7, 5, 3}, list.ToArray())
+	assert.Equal(t, []int{-5, -4, -3, -2, 1, 2, 3, 4, 5, 7, 9}, MergeSortLinked(list).ToArray())
+}
+
+func TestSinglyLinkedList3(t *testing.T) {
+	list := NewEmptySinglyLinkedList[int]()
+	n := 1_000_000
+	for i := 0; i < n; i++ {
+		list.Add(0, rand.Intn(n<<1))
+	}
+	last := 0
+	node := MergeSortLinked(list).head
+	for node != nil {
+		if node.value < last {
+			t.FailNow()
+		}
+		node = node.next
+	}
+}
