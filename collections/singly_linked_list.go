@@ -1,26 +1,26 @@
 package collections
 
 type SinglyLinkedListNode[E any] struct {
-	value E
-	next  *SinglyLinkedListNode[E]
+	Value E
+	Next  *SinglyLinkedListNode[E]
 }
 
 func NewSinglyLinkedListNode[E any](val E, next *SinglyLinkedListNode[E]) *SinglyLinkedListNode[E] {
 	return &SinglyLinkedListNode[E]{
-		value: val,
-		next:  next,
+		Value: val,
+		Next:  next,
 	}
 }
 
 type SinglyLinkedList[E any] struct {
-	len  int
-	head *SinglyLinkedListNode[E]
+	Size int
+	Head *SinglyLinkedListNode[E]
 }
 
 func NewEmptySinglyLinkedList[E any]() *SinglyLinkedList[E] {
 	return &SinglyLinkedList[E]{
-		len:  0,
-		head: nil,
+		Size: 0,
+		Head: nil,
 	}
 }
 
@@ -29,72 +29,72 @@ func NewSinglyLinkedList[E any](head *SinglyLinkedListNode[E]) *SinglyLinkedList
 	node := head
 	for node != nil {
 		n++
-		node = node.next
+		node = node.Next
 	}
 	return &SinglyLinkedList[E]{
-		len:  n,
-		head: head,
+		Size: n,
+		Head: head,
 	}
 }
 
 func (s *SinglyLinkedList[E]) Get(i int) *SinglyLinkedListNode[E] {
 	k := 0
-	node := s.head
+	node := s.Head
 	for k <= i && node != nil {
 		if k == i {
 			return node
 		}
 		k++
-		node = node.next
+		node = node.Next
 	}
 	return nil
 }
 
 func (s *SinglyLinkedList[E]) Add(i int, elem E) {
 	if i == 0 {
-		s.head = NewSinglyLinkedListNode(elem, s.head)
-		s.len++
+		s.Head = NewSinglyLinkedListNode(elem, s.Head)
+		s.Size++
 		return
 	}
 	k := 0
-	node := s.head
+	node := s.Head
 	for k < i && node != nil {
 		k++
 		if k == i {
-			node.next = NewSinglyLinkedListNode(elem, node.next)
-			s.len++
+			node.Next = NewSinglyLinkedListNode(elem, node.Next)
+			s.Size++
 			break
 		}
-		node = node.next
+		node = node.Next
 	}
 }
 
 func (s *SinglyLinkedList[E]) Delete(i int) {
 	if i == 0 {
-		s.head = nil
-		s.len = 0
+		s.Head = nil
+		s.Size = 0
 		return
 	}
 	k := 0
-	node := s.head
+	node := s.Head
 	for k < i && node != nil {
 		k++
 		if k == i {
-			node.next = nil
-			s.len = k
+			node.Next = nil
+			s.Size = k
 			break
 		}
-		node = node.next
+		node = node.Next
 	}
 }
 
 func (s *SinglyLinkedList[E]) ToArray() []E {
-	arr := make([]E, s.len)
-	next := s.head
+	arr := make([]E, s.Size)
+	next := s.Head
 	i := 0
 	for next != nil {
-		arr[i] = next.value
-		next = next.next
+		arr[i] = next.Value
+		next = next.Next
 		i++
 	}
 	return arr
@@ -107,28 +107,28 @@ func mergeOrderedLinked[E Ordered](a *SinglyLinkedListNode[E], n int, b *SinglyL
 	k := 0
 	arr := make([]E, n+m)
 	for a != nil && b != nil && i < n && j < m {
-		if a.value <= b.value {
-			arr[k] = a.value
+		if a.Value <= b.Value {
+			arr[k] = a.Value
 			k++
-			a = a.next
+			a = a.Next
 			i++
 		} else {
-			arr[k] = b.value
+			arr[k] = b.Value
 			k++
-			b = b.next
+			b = b.Next
 			j++
 		}
 	}
 	for a != nil && i < n {
-		arr[k] = a.value
+		arr[k] = a.Value
 		k++
-		a = a.next
+		a = a.Next
 		i++
 	}
 	for b != nil && j < m {
-		arr[k] = b.value
+		arr[k] = b.Value
 		k++
-		b = b.next
+		b = b.Next
 		j++
 	}
 	list := NewEmptySinglyLinkedList[E]()
@@ -145,12 +145,12 @@ func mergeSortLinked[E Ordered](a *SinglyLinkedListNode[E], n int) *SinglyLinked
 	mid := n >> 1
 	left := a
 	right := a
-	for i := 0; i < n-mid && right.next != nil; i++ {
-		right = right.next
+	for i := 0; i < n-mid && right.Next != nil; i++ {
+		right = right.Next
 	}
-	return mergeOrderedLinked(mergeSortLinked(left, n-mid), n-mid, mergeSortLinked(right, mid), mid).head
+	return mergeOrderedLinked(mergeSortLinked(left, n-mid), n-mid, mergeSortLinked(right, mid), mid).Head
 }
 
 func MergeSortLinked[E Ordered](a *SinglyLinkedList[E]) *SinglyLinkedList[E] {
-	return NewSinglyLinkedList(mergeSortLinked(a.head, a.len))
+	return NewSinglyLinkedList(mergeSortLinked(a.Head, a.Size))
 }

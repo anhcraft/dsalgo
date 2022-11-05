@@ -22,8 +22,8 @@ func TestSinglyLinkedList1(t *testing.T) {
 	list.Add(5, 11)
 	assert.Equal(t, []int{7, 8, 5, 9, 3, 11}, list.ToArray())
 
-	assert.Equal(t, 7, list.Get(0).value)
-	assert.Equal(t, 5, list.Get(2).value)
+	assert.Equal(t, 7, list.Get(0).Value)
+	assert.Equal(t, 5, list.Get(2).Value)
 
 	list.Delete(3)
 	assert.Equal(t, []int{7, 8, 5}, list.ToArray())
@@ -59,11 +59,11 @@ func TestSinglyLinkedList3(t *testing.T) {
 		list.Add(0, rand.Intn(n<<1))
 	}
 	last := 0
-	node := MergeSortLinked(list).head
+	node := MergeSortLinked(list).Head
 	for node != nil {
-		if node.value < last {
+		if node.Value < last {
 			t.FailNow()
 		}
-		node = node.next
+		node = node.Next
 	}
 }

@@ -46,7 +46,7 @@ func TestGrid3(t *testing.T) {
 		{-2, 0, 8, -4, 6},
 	})
 	grid.BubbleSort()
-	assert.Equal(t, "[[-5 -4 -3 -3 -2] [-2 0 0 1 2] [3 6 7 8 9]]", fmt.Sprint(grid.data))
+	assert.Equal(t, "[[-5 -4 -3 -3 -2] [-2 0 0 1 2] [3 6 7 8 9]]", fmt.Sprint(grid.Data))
 }
 
 func TestGrid4(t *testing.T) {

@@ -3,21 +3,21 @@ package collections
 import "math"
 
 type Grid[T Ordered] struct {
-	data [][]T
+	Data [][]T
 }
 
 func NewGrid[T Ordered](data [][]T) Grid[T] {
 	return Grid[T]{
-		data: data,
+		Data: data,
 	}
 }
 
 func (g *Grid[T]) Width() int {
-	return len(g.data[0])
+	return len(g.Data[0])
 }
 
 func (g *Grid[T]) Height() int {
-	return len(g.data)
+	return len(g.Data)
 }
 
 func (g *Grid[T]) PosToOrder(x int, y int) int {
@@ -29,12 +29,12 @@ func (g *Grid[T]) OrderToPos(i int) (int, int) {
 }
 
 func (g *Grid[T]) GetByPos(x int, y int) T {
-	return g.data[y][x]
+	return g.Data[y][x]
 }
 
 func (g *Grid[T]) GetByOrder(i int) T {
 	m, n := g.OrderToPos(i)
-	return g.data[n][m]
+	return g.Data[n][m]
 }
 
 func (g *Grid[T]) BinarySearch(elem T) int {
@@ -60,10 +60,10 @@ func (g *Grid[T]) BubbleSort() {
 		for j := 0; j < n-i-1; j++ {
 			x1, y1 := g.OrderToPos(j)
 			x2, y2 := g.OrderToPos(j + 1)
-			if g.data[y1][x1] > g.data[y2][x2] {
-				t := g.data[y1][x1]
-				g.data[y1][x1] = g.data[y2][x2]
-				g.data[y2][x2] = t
+			if g.Data[y1][x1] > g.Data[y2][x2] {
+				t := g.Data[y1][x1]
+				g.Data[y1][x1] = g.Data[y2][x2]
+				g.Data[y2][x2] = t
 			}
 		}
 	}
@@ -87,7 +87,7 @@ func FindMaximumSumArea(g Grid[int]) (int, int, int, int, int) {
 			n := 0
 			curr := 0
 			for r := 0; r < g.Height(); r++ {
-				temp[r] += g.data[r][j]
+				temp[r] += g.Data[r][j]
 				curr += temp[r]
 				if curr < 0 {
 					curr = 0

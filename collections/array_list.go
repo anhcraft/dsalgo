@@ -1,17 +1,17 @@
 package collections
 
 type ArrayList[E any] struct {
-	data []E
+	Data []E
 }
 
 func NewArrayList[E any]() *ArrayList[E] {
 	return &ArrayList[E]{
-		data: make([]E, 0),
+		Data: make([]E, 0),
 	}
 }
 
 func (a *ArrayList[E]) Append(elem E) {
-	a.data = append(a.data, elem)
+	a.Data = append(a.Data, elem)
 }
 
 func (a *ArrayList[E]) Prepend(elem E) {
@@ -19,43 +19,43 @@ func (a *ArrayList[E]) Prepend(elem E) {
 }
 
 func (a *ArrayList[E]) Insert(index int, elem E) {
-	n := make([]E, len(a.data)+1)
+	n := make([]E, len(a.Data)+1)
 	for i := 0; i < index; i++ {
-		n[i] = a.data[i]
+		n[i] = a.Data[i]
 	}
-	for i := index; i < len(a.data); i++ {
-		n[i+1] = a.data[i]
+	for i := index; i < len(a.Data); i++ {
+		n[i+1] = a.Data[i]
 	}
 	n[index] = elem
-	a.data = n
+	a.Data = n
 }
 
 func (a *ArrayList[E]) Delete(index int) {
-	n := make([]E, len(a.data)-1)
+	n := make([]E, len(a.Data)-1)
 	for i := 0; i < index; i++ {
-		n[i] = a.data[i]
+		n[i] = a.Data[i]
 	}
-	for i := index + 1; i < len(a.data); i++ {
-		n[i-1] = a.data[i]
+	for i := index + 1; i < len(a.Data); i++ {
+		n[i-1] = a.Data[i]
 	}
-	a.data = n
+	a.Data = n
 }
 
 func (a *ArrayList[E]) CopySlice(begin int, end int) *ArrayList[E] {
 	if end < 0 {
-		end += len(a.data)
+		end += len(a.Data)
 	}
 	n := make([]E, end-begin+1)
 	for i := begin; i <= end; i++ {
-		n[i-begin] = a.data[i]
+		n[i-begin] = a.Data[i]
 	}
 	return &ArrayList[E]{
-		data: n,
+		Data: n,
 	}
 }
 
 func (a *ArrayList[E]) Rotate(offset int) *ArrayList[E] {
-	length := len(a.data)
+	length := len(a.Data)
 	offset %= length
 	if offset == 0 {
 		return a
@@ -64,29 +64,29 @@ func (a *ArrayList[E]) Rotate(offset int) *ArrayList[E] {
 	if offset > 0 {
 		mid += length
 	}
-	head := a.data[0:mid]
-	tail := a.data[mid:length]
+	head := a.Data[0:mid]
+	tail := a.Data[mid:length]
 	return &ArrayList[E]{
-		data: append(tail, head...),
+		Data: append(tail, head...),
 	}
 }
 
 func (a *ArrayList[E]) SearchAfterRotation(index int, offset int) int {
-	i := (index + (offset % len(a.data))) % len(a.data)
+	i := (index + (offset % len(a.Data))) % len(a.Data)
 	if i < 0 {
-		i += len(a.data)
+		i += len(a.Data)
 	}
 	return i
 }
 
 func BinarySearch[E Ordered](a *ArrayList[E], elem E) int {
 	lower := 0
-	upper := len(a.data) - 1
-	for lower <= upper && elem >= a.data[lower] && elem <= a.data[upper] {
+	upper := len(a.Data) - 1
+	for lower <= upper && elem >= a.Data[lower] && elem <= a.Data[upper] {
 		mid := (lower + upper) >> 1
-		if elem < a.data[mid] {
+		if elem < a.Data[mid] {
 			upper = mid - 1
-		} else if elem > a.data[mid] {
+		} else if elem > a.Data[mid] {
 			lower = mid + 1
 		} else {
 			return mid
@@ -97,16 +97,16 @@ func BinarySearch[E Ordered](a *ArrayList[E], elem E) int {
 
 func BinarySearchFirstOccurrence[E Ordered](a *ArrayList[E], elem E) int {
 	lower := 0
-	upper := len(a.data) - 1
-	for lower <= upper && elem >= a.data[lower] && elem <= a.data[upper] {
+	upper := len(a.Data) - 1
+	for lower <= upper && elem >= a.Data[lower] && elem <= a.Data[upper] {
 		mid := (lower + upper) >> 1
-		if elem < a.data[mid] {
+		if elem < a.Data[mid] {
 			upper = mid - 1
-		} else if elem > a.data[mid] {
+		} else if elem > a.Data[mid] {
 			lower = mid + 1
 		} else {
 			for i := mid; i > 0; i-- {
-				if a.data[i-1] != elem {
+				if a.Data[i-1] != elem {
 					return i
 				}
 			}
@@ -117,16 +117,16 @@ func BinarySearchFirstOccurrence[E Ordered](a *ArrayList[E], elem E) int {
 
 func BinarySearchLastOccurrence[E Ordered](a *ArrayList[E], elem E) int {
 	lower := 0
-	upper := len(a.data) - 1
-	for lower <= upper && elem >= a.data[lower] && elem <= a.data[upper] {
+	upper := len(a.Data) - 1
+	for lower <= upper && elem >= a.Data[lower] && elem <= a.Data[upper] {
 		mid := (lower + upper) >> 1
-		if elem < a.data[mid] {
+		if elem < a.Data[mid] {
 			upper = mid - 1
-		} else if elem > a.data[mid] {
+		} else if elem > a.Data[mid] {
 			lower = mid + 1
 		} else {
-			for i := mid; i < len(a.data); i++ {
-				if a.data[i+1] != elem {
+			for i := mid; i < len(a.Data); i++ {
+				if a.Data[i+1] != elem {
 					return i
 				}
 			}
@@ -137,13 +137,13 @@ func BinarySearchLastOccurrence[E Ordered](a *ArrayList[E], elem E) int {
 
 func InterpolationSearch[E Integer](a *ArrayList[E], elem E) int {
 	lower := 0
-	upper := len(a.data) - 1
-	for lower <= upper && elem >= a.data[lower] && elem <= a.data[upper] {
-		ratio := (elem - a.data[lower]) / (a.data[upper] - a.data[lower])
+	upper := len(a.Data) - 1
+	for lower <= upper && elem >= a.Data[lower] && elem <= a.Data[upper] {
+		ratio := (elem - a.Data[lower]) / (a.Data[upper] - a.Data[lower])
 		mid := lower + (upper-lower)*int(ratio)
-		if elem < a.data[mid] {
+		if elem < a.Data[mid] {
 			upper = mid - 1
-		} else if elem > a.data[mid] {
+		} else if elem > a.Data[mid] {
 			lower = mid + 1
 		} else {
 			return mid
