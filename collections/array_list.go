@@ -79,6 +79,12 @@ func (a *ArrayList[E]) SearchAfterRotation(index int, offset int) int {
 	return i
 }
 
+func (a *ArrayList[E]) Iterate(f func(e E)) {
+	for _, v := range a.Data {
+		f(v)
+	}
+}
+
 func BinarySearch[E Ordered](a *ArrayList[E], elem E) int {
 	lower := 0
 	upper := len(a.Data) - 1
