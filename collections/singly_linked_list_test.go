@@ -25,11 +25,22 @@ func TestSinglyLinkedList1(t *testing.T) {
 	assert.Equal(t, 7, list.Get(0).Value)
 	assert.Equal(t, 5, list.Get(2).Value)
 
-	list.Delete(3)
+	list.DeleteTail(3)
 	assert.Equal(t, []int{7, 8, 5}, list.ToArray())
 
-	list.Delete(0)
+	list.DeleteTail(0)
 	assert.Equal(t, []int{}, list.ToArray())
+
+	list.Add(0, 9)
+	list.Add(0, 4)
+	list.Add(0, 1)
+	assert.Equal(t, []int{1, 4, 9}, list.ToArray())
+
+	list.DeleteAt(1)
+	assert.Equal(t, []int{1, 9}, list.ToArray())
+
+	list.DeleteAt(0)
+	assert.Equal(t, []int{9}, list.ToArray())
 }
 
 func TestSinglyLinkedList2(t *testing.T) {

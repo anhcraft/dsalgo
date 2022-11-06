@@ -69,7 +69,11 @@ func (s *SinglyLinkedList[E]) Add(i int, elem E) {
 	}
 }
 
-func (s *SinglyLinkedList[E]) Delete(i int) {
+func (s *SinglyLinkedList[E]) Offer(elem E) {
+	s.Add(0, elem)
+}
+
+func (s *SinglyLinkedList[E]) DeleteTail(i int) {
 	if i == 0 {
 		s.Head = nil
 		s.Size = 0
@@ -88,6 +92,30 @@ func (s *SinglyLinkedList[E]) Delete(i int) {
 	}
 }
 
+func (s *SinglyLinkedList[E]) DeleteAt(i int) (bool, *SinglyLinkedListNode[E]) {
+	if i == 0 {
+		curr := s.Head
+		s.Head = curr.Next
+		s.Size--
+		return true, curr
+	}
+	k := 0
+	node := s.Head
+	for k < i && node != nil {
+		k++
+		if k == i {
+			curr := node.Next
+			if curr != nil {
+				node.Next = curr.Next
+				s.Size--
+			}
+			return true, curr
+		}
+		node = node.Next
+	}
+	return false, nil
+}
+
 func (s *SinglyLinkedList[E]) ToArray() []E {
 	arr := make([]E, s.Size)
 	next := s.Head
@@ -98,6 +126,10 @@ func (s *SinglyLinkedList[E]) ToArray() []E {
 		i++
 	}
 	return arr
+}
+
+func (s *SinglyLinkedList[E]) Poll() (bool, *SinglyLinkedListNode[E]) {
+	return s.DeleteAt(s.Size - 1)
 }
 
 // By adding to a linked list, the order is opposite to the given comparator
