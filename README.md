@@ -29,3 +29,7 @@ My Data structure & Algorithms repository.
 - Offer, Poll: O(1)
 - ToArray: O(n)
 - MergeSort: O(n*logn)
+
+### Singly Linked List - Queue (FIFO)
+- Offer, Poll: O(1)
+- ToArray: O(n)

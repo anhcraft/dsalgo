@@ -37,7 +37,7 @@ func NewGenericTree[T any](root *GenericTreeNode[T]) *GenericTree[T] {
 
 // BFS Breadth-first search
 func (t *GenericTree[T]) BFS(f func(val *GenericTreeNode[T])) {
-	queue := sll.NewStack[*GenericTreeNode[T]](sll.NewStackNode[*GenericTreeNode[T]](t.Root, nil))
+	queue := sll.NewQueue[*GenericTreeNode[T]](sll.NewQueueNode[*GenericTreeNode[T]](t.Root, nil))
 	for true {
 		ok, head := queue.Poll()
 		if !ok || head == nil {
