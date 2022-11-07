@@ -1,12 +1,15 @@
 package collections
 
-import "math"
+import (
+	"dsalgo/utils"
+	"math"
+)
 
-type Grid[T Ordered] struct {
+type Grid[T utils.Ordered] struct {
 	Data [][]T
 }
 
-func NewGrid[T Ordered](data [][]T) Grid[T] {
+func NewGrid[T utils.Ordered](data [][]T) Grid[T] {
 	return Grid[T]{
 		Data: data,
 	}

@@ -1,5 +1,7 @@
 package collections
 
+import "dsalgo/utils"
+
 type ArrayList[E any] struct {
 	Data []E
 }
@@ -71,7 +73,7 @@ func (a *ArrayList[E]) Rotate(offset int) *ArrayList[E] {
 	}
 }
 
-func (a *ArrayList[E]) SearchAfterRotation(index int, offset int) int {
+func (a *ArrayList[E]) LocateAfterRotation(index int, offset int) int {
 	i := (index + (offset % len(a.Data))) % len(a.Data)
 	if i < 0 {
 		i += len(a.Data)
@@ -85,7 +87,7 @@ func (a *ArrayList[E]) Iterate(f func(e E)) {
 	}
 }
 
-func BinarySearch[E Ordered](a *ArrayList[E], elem E) int {
+func BinarySearch[E utils.Ordered](a *ArrayList[E], elem E) int {
 	lower := 0
 	upper := len(a.Data) - 1
 	for lower <= upper && elem >= a.Data[lower] && elem <= a.Data[upper] {
@@ -101,7 +103,7 @@ func BinarySearch[E Ordered](a *ArrayList[E], elem E) int {
 	return -1
 }
 
-func BinarySearchFirstOccurrence[E Ordered](a *ArrayList[E], elem E) int {
+func BinarySearchFirstOccurrence[E utils.Ordered](a *ArrayList[E], elem E) int {
 	lower := 0
 	upper := len(a.Data) - 1
 	for lower <= upper && elem >= a.Data[lower] && elem <= a.Data[upper] {
@@ -121,7 +123,7 @@ func BinarySearchFirstOccurrence[E Ordered](a *ArrayList[E], elem E) int {
 	return -1
 }
 
-func BinarySearchLastOccurrence[E Ordered](a *ArrayList[E], elem E) int {
+func BinarySearchLastOccurrence[E utils.Ordered](a *ArrayList[E], elem E) int {
 	lower := 0
 	upper := len(a.Data) - 1
 	for lower <= upper && elem >= a.Data[lower] && elem <= a.Data[upper] {
@@ -141,7 +143,7 @@ func BinarySearchLastOccurrence[E Ordered](a *ArrayList[E], elem E) int {
 	return -1
 }
 
-func InterpolationSearch[E Integer](a *ArrayList[E], elem E) int {
+func InterpolationSearch[E utils.Integer](a *ArrayList[E], elem E) int {
 	lower := 0
 	upper := len(a.Data) - 1
 	for lower <= upper && elem >= a.Data[lower] && elem <= a.Data[upper] {
@@ -158,7 +160,7 @@ func InterpolationSearch[E Integer](a *ArrayList[E], elem E) int {
 	return -1
 }
 
-func MergeOrdered[E Ordered](a []E, b []E) []E {
+func MergeOrdered[E utils.Ordered](a []E, b []E) []E {
 	i := 0
 	j := 0
 	k := 0
@@ -187,7 +189,7 @@ func MergeOrdered[E Ordered](a []E, b []E) []E {
 	return c
 }
 
-func MergeSort[E Ordered](a []E) []E {
+func MergeSort[E utils.Ordered](a []E) []E {
 	if len(a) < 2 {
 		return a
 	}
@@ -197,7 +199,7 @@ func MergeSort[E Ordered](a []E) []E {
 	return MergeOrdered(left, right)
 }
 
-func QuickSortPartition[E Ordered](a []E, low int, high int) int {
+func QuickSortPartition[E utils.Ordered](a []E, low int, high int) int {
 	pivot := a[(low+high)>>1]
 	i := low - 1
 	j := high + 1
@@ -226,7 +228,7 @@ func QuickSortPartition[E Ordered](a []E, low int, high int) int {
 	return j
 }
 
-func quickSort[E Ordered](a []E, low int, high int) {
+func quickSort[E utils.Ordered](a []E, low int, high int) {
 	if low >= high || len(a) < 2 {
 		return
 	}
@@ -235,12 +237,12 @@ func quickSort[E Ordered](a []E, low int, high int) {
 	quickSort(a, p+1, high)
 }
 
-func QuickSort[E Ordered](a []E) []E {
+func QuickSort[E utils.Ordered](a []E) []E {
 	quickSort(a, 0, len(a)-1)
 	return a
 }
 
-func InsertionSort[E Ordered](a []E) []E {
+func InsertionSort[E utils.Ordered](a []E) []E {
 	for i := 1; i < len(a); i++ {
 		key := a[i]
 		j := i - 1

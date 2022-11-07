@@ -1,6 +1,8 @@
-package graphs
+package tree
 
-import "dsalgo/collections"
+import (
+	"dsalgo/collections/sll"
+)
 
 type GenericTreeNode[T any] struct {
 	Value    T
@@ -35,7 +37,7 @@ func NewGenericTree[T any](root *GenericTreeNode[T]) *GenericTree[T] {
 
 // BFS Breadth-first search
 func (t *GenericTree[T]) BFS(f func(val *GenericTreeNode[T])) {
-	queue := collections.NewSinglyLinkedList[*GenericTreeNode[T]](collections.NewSinglyLinkedListNode[*GenericTreeNode[T]](t.Root, nil))
+	queue := sll.NewStack[*GenericTreeNode[T]](sll.NewStackNode[*GenericTreeNode[T]](t.Root, nil))
 	for true {
 		ok, head := queue.Poll()
 		if !ok || head == nil {

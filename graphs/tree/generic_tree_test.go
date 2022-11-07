@@ -1,4 +1,4 @@
-package graphs
+package tree
 
 import (
 	"dsalgo/collections"

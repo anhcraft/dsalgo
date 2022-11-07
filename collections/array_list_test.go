@@ -80,10 +80,10 @@ func TestArrayList4(t *testing.T) {
 	assert.Equal(t, []int{2, 1, 3, 7, 4}, arr.Rotate(-4).Data)
 	assert.Equal(t, []int{1, 3, 7, 4, 2}, arr.Rotate(-5).Data)
 
-	assert.Equal(t, 2, arr.SearchAfterRotation(0, 2))
-	assert.Equal(t, 2, arr.SearchAfterRotation(4, 3))
-	assert.Equal(t, 3, arr.SearchAfterRotation(0, -2))
-	assert.Equal(t, 1, arr.SearchAfterRotation(4, -3))
+	assert.Equal(t, 2, arr.LocateAfterRotation(0, 2))
+	assert.Equal(t, 2, arr.LocateAfterRotation(4, 3))
+	assert.Equal(t, 3, arr.LocateAfterRotation(0, -2))
+	assert.Equal(t, 1, arr.LocateAfterRotation(4, -3))
 }
 
 func TestArrayList5(t *testing.T) {

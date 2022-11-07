@@ -1,43 +1,47 @@
-package collections
+package sll
 
-type SinglyLinkedListNode[E any] struct {
+import (
+	"dsalgo/utils"
+)
+
+type StackNode[E any] struct {
 	Value E
-	Next  *SinglyLinkedListNode[E]
+	Next  *StackNode[E]
 }
 
-func NewSinglyLinkedListNode[E any](val E, next *SinglyLinkedListNode[E]) *SinglyLinkedListNode[E] {
-	return &SinglyLinkedListNode[E]{
+func NewStackNode[E any](val E, next *StackNode[E]) *StackNode[E] {
+	return &StackNode[E]{
 		Value: val,
 		Next:  next,
 	}
 }
 
-type SinglyLinkedList[E any] struct {
+type Stack[E any] struct {
 	Size int
-	Head *SinglyLinkedListNode[E]
+	Head *StackNode[E]
 }
 
-func NewEmptySinglyLinkedList[E any]() *SinglyLinkedList[E] {
-	return &SinglyLinkedList[E]{
+func NewEmptyStack[E any]() *Stack[E] {
+	return &Stack[E]{
 		Size: 0,
 		Head: nil,
 	}
 }
 
-func NewSinglyLinkedList[E any](head *SinglyLinkedListNode[E]) *SinglyLinkedList[E] {
+func NewStack[E any](head *StackNode[E]) *Stack[E] {
 	n := 0
 	node := head
 	for node != nil {
 		n++
 		node = node.Next
 	}
-	return &SinglyLinkedList[E]{
+	return &Stack[E]{
 		Size: n,
 		Head: head,
 	}
 }
 
-func (s *SinglyLinkedList[E]) Get(i int) *SinglyLinkedListNode[E] {
+func (s *Stack[E]) Get(i int) *StackNode[E] {
 	k := 0
 	node := s.Head
 	for k <= i && node != nil {
@@ -50,9 +54,9 @@ func (s *SinglyLinkedList[E]) Get(i int) *SinglyLinkedListNode[E] {
 	return nil
 }
 
-func (s *SinglyLinkedList[E]) Add(i int, elem E) {
+func (s *Stack[E]) Add(i int, elem E) {
 	if i == 0 {
-		s.Head = NewSinglyLinkedListNode(elem, s.Head)
+		s.Head = NewStackNode(elem, s.Head)
 		s.Size++
 		return
 	}
@@ -61,7 +65,7 @@ func (s *SinglyLinkedList[E]) Add(i int, elem E) {
 	for k < i && node != nil {
 		k++
 		if k == i {
-			node.Next = NewSinglyLinkedListNode(elem, node.Next)
+			node.Next = NewStackNode(elem, node.Next)
 			s.Size++
 			break
 		}
@@ -69,11 +73,11 @@ func (s *SinglyLinkedList[E]) Add(i int, elem E) {
 	}
 }
 
-func (s *SinglyLinkedList[E]) Offer(elem E) {
+func (s *Stack[E]) Offer(elem E) {
 	s.Add(0, elem)
 }
 
-func (s *SinglyLinkedList[E]) DeleteTail(i int) {
+func (s *Stack[E]) DeleteTail(i int) {
 	if i == 0 {
 		s.Head = nil
 		s.Size = 0
@@ -92,7 +96,7 @@ func (s *SinglyLinkedList[E]) DeleteTail(i int) {
 	}
 }
 
-func (s *SinglyLinkedList[E]) DeleteAt(i int) (bool, *SinglyLinkedListNode[E]) {
+func (s *Stack[E]) DeleteAt(i int) (bool, *StackNode[E]) {
 	if i == 0 {
 		curr := s.Head
 		s.Head = curr.Next
@@ -116,7 +120,7 @@ func (s *SinglyLinkedList[E]) DeleteAt(i int) (bool, *SinglyLinkedListNode[E]) {
 	return false, nil
 }
 
-func (s *SinglyLinkedList[E]) ToArray() []E {
+func (s *Stack[E]) ToArray() []E {
 	arr := make([]E, s.Size)
 	next := s.Head
 	i := 0
@@ -128,12 +132,12 @@ func (s *SinglyLinkedList[E]) ToArray() []E {
 	return arr
 }
 
-func (s *SinglyLinkedList[E]) Poll() (bool, *SinglyLinkedListNode[E]) {
-	return s.DeleteAt(s.Size - 1)
+func (s *Stack[E]) Poll() (bool, *StackNode[E]) {
+	return s.DeleteAt(0)
 }
 
 // By adding to a linked list, the order is opposite to the given comparator
-func mergeOrderedLinked[E Ordered](a *SinglyLinkedListNode[E], n int, b *SinglyLinkedListNode[E], m int) *SinglyLinkedList[E] {
+func mergeOrderedStack[E utils.Ordered](a *StackNode[E], n int, b *StackNode[E], m int) *Stack[E] {
 	i := 0
 	j := 0
 	k := 0
@@ -163,14 +167,14 @@ func mergeOrderedLinked[E Ordered](a *SinglyLinkedListNode[E], n int, b *SinglyL
 		b = b.Next
 		j++
 	}
-	list := NewEmptySinglyLinkedList[E]()
+	list := NewEmptyStack[E]()
 	for q := len(arr) - 1; q >= 0; q-- {
 		list.Add(0, arr[q])
 	}
 	return list
 }
 
-func mergeSortLinked[E Ordered](a *SinglyLinkedListNode[E], n int) *SinglyLinkedListNode[E] {
+func mergeSortStack[E utils.Ordered](a *StackNode[E], n int) *StackNode[E] {
 	if n < 2 {
 		return a
 	}
@@ -180,9 +184,9 @@ func mergeSortLinked[E Ordered](a *SinglyLinkedListNode[E], n int) *SinglyLinked
 	for i := 0; i < n-mid && right.Next != nil; i++ {
 		right = right.Next
 	}
-	return mergeOrderedLinked(mergeSortLinked(left, n-mid), n-mid, mergeSortLinked(right, mid), mid).Head
+	return mergeOrderedStack(mergeSortStack(left, n-mid), n-mid, mergeSortStack(right, mid), mid).Head
 }
 
-func MergeSortLinked[E Ordered](a *SinglyLinkedList[E]) *SinglyLinkedList[E] {
-	return NewSinglyLinkedList(mergeSortLinked(a.Head, a.Size))
+func MergeSortStack[E utils.Ordered](a *Stack[E]) *Stack[E] {
+	return NewStack(mergeSortStack(a.Head, a.Size))
 }

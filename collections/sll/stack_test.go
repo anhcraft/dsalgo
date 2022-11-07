@@ -1,4 +1,4 @@
-package collections
+package sll
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-func TestSinglyLinkedList1(t *testing.T) {
-	list := NewEmptySinglyLinkedList[int]()
+func TestStack1(t *testing.T) {
+	list := NewEmptyStack[int]()
 	list.Add(0, 3)
 	list.Add(0, 5)
 	list.Add(0, 7)
@@ -43,8 +43,8 @@ func TestSinglyLinkedList1(t *testing.T) {
 	assert.Equal(t, []int{9}, list.ToArray())
 }
 
-func TestSinglyLinkedList2(t *testing.T) {
-	list := NewEmptySinglyLinkedList[int]()
+func TestStack2(t *testing.T) {
+	list := NewEmptyStack[int]()
 	list.Add(0, 3)
 	list.Add(0, 5)
 	list.Add(0, 7)
@@ -53,24 +53,24 @@ func TestSinglyLinkedList2(t *testing.T) {
 	list.Add(0, 2)
 	list.Add(0, 9)
 	assert.Equal(t, []int{9, 2, 4, 1, 7, 5, 3}, list.ToArray())
-	assert.Equal(t, []int{1, 2, 3, 4, 5, 7, 9}, MergeSortLinked(list).ToArray())
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 7, 9}, MergeSortStack(list).ToArray())
 
 	list.Add(0, -2)
 	list.Add(0, -4)
 	list.Add(0, -3)
 	list.Add(0, -5)
 	assert.Equal(t, []int{-5, -3, -4, -2, 9, 2, 4, 1, 7, 5, 3}, list.ToArray())
-	assert.Equal(t, []int{-5, -4, -3, -2, 1, 2, 3, 4, 5, 7, 9}, MergeSortLinked(list).ToArray())
+	assert.Equal(t, []int{-5, -4, -3, -2, 1, 2, 3, 4, 5, 7, 9}, MergeSortStack(list).ToArray())
 }
 
-func TestSinglyLinkedList3(t *testing.T) {
-	list := NewEmptySinglyLinkedList[int]()
+func TestStack3(t *testing.T) {
+	list := NewEmptyStack[int]()
 	n := 1_000_000
 	for i := 0; i < n; i++ {
 		list.Add(0, rand.Intn(n<<1))
 	}
 	last := 0
-	node := MergeSortLinked(list).Head
+	node := MergeSortStack(list).Head
 	for node != nil {
 		if node.Value < last {
 			t.FailNow()
