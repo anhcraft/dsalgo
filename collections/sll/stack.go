@@ -99,6 +99,9 @@ func (s *Stack[E]) DeleteTail(i int) {
 func (s *Stack[E]) DeleteAt(i int) (bool, *StackNode[E]) {
 	if i == 0 {
 		curr := s.Head
+		if curr == nil {
+			return false, curr
+		}
 		s.Head = curr.Next
 		s.Size--
 		return true, curr
