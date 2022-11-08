@@ -57,6 +57,19 @@ func (s *Queue[E]) Offer(elem E) {
 	s.Size++
 }
 
+func (s *Queue[E]) Insert(elem E) {
+	node := NewQueueNode[E](elem, nil)
+	if s.Head == nil {
+		s.Head = node
+		s.Tail = node
+	} else {
+		t := s.Head
+		s.Head = node
+		node.Next = t
+	}
+	s.Size++
+}
+
 func (s *Queue[E]) Poll() (bool, *QueueNode[E]) {
 	if s.Head == nil {
 		return false, nil

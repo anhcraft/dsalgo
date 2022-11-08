@@ -31,5 +31,5 @@ My Data structure & Algorithms repository.
 - MergeSort: O(n*logn)
 
 ### Singly Linked List - Queue (FIFO)
-- Offer, Poll: O(1)
+- Offer, Poll, Insert: O(1)
 - ToArray: O(n)
