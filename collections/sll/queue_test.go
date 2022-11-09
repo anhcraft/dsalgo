@@ -27,4 +27,11 @@ func TestQueue1(t *testing.T) {
 	assert.Equal(t, 4, node.Value)
 	assert.Equal(t, []int{}, queue.ToArray())
 	assert.Equal(t, 0, queue.Size)
+
+	queue.Offer(3)
+	assert.Equal(t, []int{3}, queue.ToArray())
+	queue.Offer(4)
+	assert.Equal(t, []int{3, 4}, queue.ToArray())
+	queue.Insert(2)
+	assert.Equal(t, []int{2, 3, 4}, queue.ToArray())
 }
